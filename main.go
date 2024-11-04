@@ -11,34 +11,75 @@ import (
 var username = "postgres"
 var password = "postgres"
 var database = "test_script"
+var err error
 
 func main() {
 	// Define the connection string
-	// connStr := "postgres://username:password@localhost:5432/database_name"
-	connStr := fmt.Sprintf("postgres://%s:%s@localhost:5432/%s", username, password, database)
+
+	// Connect to the database
+	// conn := postgresConn()
+	conn := cockroachConn()
+	defer conn.Close(context.Background())
+
+	test(conn)
+
+}
+
+func test(conn *pgx.Conn) {
+	defer println("finished test()")
+	// Define the SQL query to create a table
+	drop := `
+		DROP SEQUENCE IF EXISTS test_sequence;
+		`
+
+	// Execute the query to create the table
+	_, err = conn.Exec(context.Background(), drop)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	create := `
+		CREATE SEQUENCE test_sequence MAXVALUE 33;
+		`
+
+	// Execute the query to create the table
+	_, err = conn.Exec(context.Background(), create)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for i := 0; i < 4; i++ {
+		// Increment a sequence and print the resulting value
+		var seqValue int64
+		err = conn.QueryRow(context.Background(), "SELECT nextval('test_sequence');").Scan(&seqValue)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("Sequence value: %d\n", seqValue)
+	}
+}
+
+func postgresConn() *pgx.Conn {
+	println("postgresConn")
+	connStr := "postgres://postgres:postgres@localhost:5432/test_script"
 
 	// Connect to the database
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer conn.Close(context.Background())
+	return conn
+}
 
-	// Define the SQL query to create a table
-	query := `
-		CREATE TABLE IF NOT EXISTS books (
-			id SERIAL PRIMARY KEY,
-			title VARCHAR(100) NOT NULL,
-			author VARCHAR(100) NOT NULL,
-			quantity INTEGER NOT NULL
-		);
-	`
+func cockroachConn() *pgx.Conn {
+	println("cockroachConn")
+	connStr := "postgresql://root@127.0.0.1:26257/movr?options=-ccluster%3Ddemoapp&sslmode=disable"
 
-	// Execute the query to create the table
-	_, err = conn.Exec(context.Background(), query)
+	// Connect to the database
+	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("Table created successfully.")
+	return conn
 }
