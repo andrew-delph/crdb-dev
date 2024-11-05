@@ -121,7 +121,7 @@ func postgresConn() *pgx.Conn {
 
 func cockroachConn() *pgx.Conn {
 	println("cockroachConn")
-	connStr := "postgresql://root@127.0.0.1:26257/movr?options=-ccluster%3Ddemoapp&sslmode=disable"
+	connStr := "postgresql://root@127.0.0.1:9999/movr?options=-ccluster%3Ddemoapp&sslmode=disable"
 
 	// Connect to the database
 	conn, err := pgx.Connect(context.Background(), connStr)
