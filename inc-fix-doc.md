@@ -1,5 +1,5 @@
 summary:
-Squences provide a way to automicatically increment a value. Sequesence are provided options which affect its behavior such as increment, or max options.
+Sequences provide a way to automicatically increment a value. Sequesence are provided options which affect its behavior such as increment, or max options.
 Currently there is an issue where the sequence values maybe go beyound the min/max values set in the options.
 This happens due to current sequence cache implementation and its usage of the Batch Increment Command.
 
