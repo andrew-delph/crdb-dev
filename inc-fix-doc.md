@@ -71,6 +71,17 @@ cons:
 - Creating a new api requires proper documentation
 - Not sure if understanding is correct enough
 
+### Solution 3: Skip direct usage of APIs
+
+Locks:
+
+1. get value
+2. calculate
+3. write
+
+### Solution 4: Batch Requests
+In 1 request, include multiple batch rows and operations.
+
 ## Questions:
 
 ### What is the purpose of Batch Commands?
