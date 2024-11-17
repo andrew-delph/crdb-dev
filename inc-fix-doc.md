@@ -25,8 +25,26 @@ possible documentation: https://github.com/andrew-delph/cockroach/blob/master/do
    - If no valid steps can be made within the bounds, raise an error.
 
 
-## solutions
-### Solution 1: Modify Batch Increment
+## Difficulties
+**Sequence logic and Increment logic is seperated by an API**
+
+pros:
+- i
+
+cons:
+- b 
+
+
+**Template**
+
+pros:
+- a
+
+cons:
+- b 
+
+## Solutions
+### Solution 1: Modify Api for Integer Increments
 
 - The current implementation is designed for raw numbers and does not account for sequence options.
 - It may be possible to extend the Batch Increment command to include sequence options, but this would require informing the sequence cache about the available number of values.
@@ -36,16 +54,16 @@ pros:
 - No new apis
 
 cons:
-- blots existing apis
-- backward combatabile
+- Increment has uses with are beyond sequences scope
+- Backwards combatability
 
-### Solution 2: Create a New Batch Command
+### Solution 2: Create Api Specifically for Sequences
 
 - This approach would support sequence options directly.
 - The command would return the number of increments successfully performed.
 
 pros:
-- backward combatabile
+- Backwards combatability
 
 cons:
 - Creating a new api requires proper documentation
@@ -61,3 +79,6 @@ via either DB.Run, Txn.Run or Txn.Commit.
 
 ### what is the purpose of sequences using the batch increment command?
 - a
+
+### How else is Increment API used?
+- this should be documented
