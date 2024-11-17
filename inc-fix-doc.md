@@ -28,6 +28,8 @@ possible documentation: https://github.com/andrew-delph/cockroach/blob/master/do
 ## Difficulties
 **Sequence logic and Increment logic is seperated by an API**
 
+This forces us to create or udpate an Api. If possible, skipping intraction with APIs directly could simply a fix. 
+
 pros:
 - i
 
