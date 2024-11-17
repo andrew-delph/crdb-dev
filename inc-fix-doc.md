@@ -32,11 +32,24 @@ possible documentation: https://github.com/andrew-delph/cockroach/blob/master/do
 - It may be possible to extend the Batch Increment command to include sequence options, but this would require informing the sequence cache about the available number of values.
 - However, modifying the Batch Increment in this way is likely not ideal, as it introduces a one-way change that could complicate future modifications or reversals.
 
+pros:
+- No new apis
+
+cons:
+- blots existing apis
+- backward combatabile
+
 ### Solution 2: Create a New Batch Command
 
 - This approach would support sequence options directly.
 - The command would return the number of increments successfully performed.
 
+pros:
+- backward combatabile
+
+cons:
+- Creating a new api requires proper documentation
+- Not sure if understanding is correct enough
 
 ## Questions:
 
