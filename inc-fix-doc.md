@@ -1,7 +1,5 @@
 ## summary:
-Sequences provide a way to automicatically increment a value. Sequesence are provided options which affect its behavior such as increment, or max options.
-Currently there is an issue where the sequence values maybe go beyound the min/max values set in the options.
-This happens due to current sequence cache implementation and its usage of the Batch Increment Command.
+Sequences provide a way to automatically increment values. They can be configured with various options that control their behavior, such as the increment step and maximum value. However, there is currently an issue where sequence values may exceed the defined minimum or maximum limits. This occurs due to the current sequence cache implementation and its handling of the Batch Increment Command.
 
 crs:
 - https://github.com/andrew-delph/cockroach/pull/17/files
@@ -9,26 +7,44 @@ crs:
 
 possible documentation: https://github.com/andrew-delph/cockroach/blob/master/docs/RFCS/20150806_gateway_batch.md
 
-## desired behavior:
-- considering max_value, min_value, increment, cache.
-- increase to the largest possible number with range with the bnumber of cache steps
-- if increasing the cache reaches the bounds, set the cache to the ramainder of the increment
-- if no steps can be made, the increase in an error
+## desired behavior
+
+1. **Parameters to Consider**:
+   - `max_value`
+   - `min_value`
+   - `increment`
+   - `cache`
+
+2. **Increment Process**:
+   - Increase the value to the largest possible number within the defined range, using the specified number of cache steps.
+
+3. **Handling Boundaries**:
+   - If increasing by the cache size exceeds the bounds (`max_value` or `min_value`), adjust the cache to use the remainder of the increment.
+
+4. **Error Handling**:
+   - If no valid steps can be made within the bounds, raise an error.
+
 
 ## solutions
-### sol1: modify batch increase
-- it implmented for raw numbers and does not consider sequence options
-- it may be possible to extend the batch inrement command to include sequence options but this would require informating the sequence cache the number of values available
-- it is likely not a good idea to modify increment batch in this way as it is considered a 1 way change
+### Solution 1: Modify Batch Increment
 
-### sol2: create new batch command
-- this will provide sequence options
-- it will return the number of increases made
+- The current implementation is designed for raw numbers and does not account for sequence options.
+- It may be possible to extend the Batch Increment command to include sequence options, but this would require informing the sequence cache about the available number of values.
+- However, modifying the Batch Increment in this way is likely not ideal, as it introduces a one-way change that could complicate future modifications or reversals.
 
-## questions:
+### Solution 2: Create a New Batch Command
 
-### what is the purpose of batch commands?
-- a
+- This approach would support sequence options directly.
+- The command would return the number of increments successfully performed.
+
+
+## Questions:
+
+### What is the purpose of Batch Commands?
+- Are all low-level requests sent through batch commands?
+> Batch provides for the parallel execution of a number of database
+operations. Operations are added to the Batch and then the Batch is executed
+via either DB.Run, Txn.Run or Txn.Commit.
 
 ### what is the purpose of sequences using the batch increment command?
 - a
