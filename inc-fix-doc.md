@@ -76,11 +76,14 @@ cons:
 
 ### Solution 3: Skip direct usage of APIs
 
-Locks:
+Locks/Transaction:
 
 1. get value
 2. calculate
 3. write
+
+**Why is this not logic used?**
+> It slows down logic. Possibly the documention for Postgres has an explanation.
 
 ### Solution 4: Batch Requests
 In 1 request, include multiple batch rows and operations.
