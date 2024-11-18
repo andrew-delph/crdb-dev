@@ -29,6 +29,9 @@ possible documentation: https://github.com/andrew-delph/cockroach/blob/master/do
 **Sequence logic and Increment logic is seperated by an API**
 
 This forces us to create or udpate an Api. If possible, skipping intraction with APIs directly could simply a fix. 
+Logic needs to be introduced between operations of Read and Write. Increment currently only returns starting value of the operation. This means we are blindly incrementing the value. After the operation is made, the written value is validated to set the cache value range. The cache will then return accurate results but the written value is corrupted and once sequence options are then extended, the value made unreasonablity leaps.
+The use of the cache and sequences is a known trade off in other databases, for example Postgres. It results in missed sequence values when the cache is invalidated.
+The difference is that CRBDs cache introduces larger leaps and actually may return a value with is out of range.
 
 pros:
 - i
