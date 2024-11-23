@@ -2,6 +2,7 @@
 Sequences provide a way to automatically increment values. They can be configured with various options that control their behavior, such as the increment step and maximum value. However, there is currently an issue where sequence values may exceed the defined minimum or maximum limits. This occurs due to the current sequence cache implementation and its handling of the Batch Increment Command.
 
 crs:
+- https://github.com/cockroachdb/cockroach/pull/1215751
 - https://github.com/andrew-delph/cockroach/pull/17/files
 - https://github.com/andrew-delph/cockroach/pull/18/files
 
@@ -75,12 +76,16 @@ cons:
 - Not sure if understanding is correct enough
 
 ### Solution 3: Skip direct usage of APIs
+attempted with: https://github.com/cockroachdb/cockroach/pull/121575/files
 
 Locks/Transaction:
 
 1. get value
 2. calculate
 3. write
+
+
+
 
 **Why is this not logic used?**
 > It slows down logic. Possibly the documention for Postgres has an explanation.
