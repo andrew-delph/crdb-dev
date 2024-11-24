@@ -78,14 +78,21 @@ cons:
 ### Solution 3: Skip direct usage of APIs
 attempted with: https://github.com/cockroachdb/cockroach/pull/121575/files
 
+This might be a good way actually?
+How does it affect speed?
+Instead of making 1 batch request, 2 are made.
+use of conditional could have conflicting locks.
+stress tests needed.
+
+failing tests with `./dev test pkg/ccl/...`
+- ./dev test pkg/ccl/backupccl
+- ./dev test pkg/ccl/schemachangerccl
+
 Locks/Transaction:
 
 1. get value
 2. calculate
 3. write
-
-
-
 
 **Why is this not logic used?**
 > It slows down logic. Possibly the documention for Postgres has an explanation.
@@ -106,3 +113,34 @@ via either DB.Run, Txn.Run or Txn.Commit.
 
 ### How else is Increment API used?
 - this should be documented
+
+
+
+## Testing
+- unit tests, logic tests, stress tests
+
+#### stress tests:
+- multiple clients, multiple nodes?
+- cache miss should happen multiple times.
+- ensure behavior is valid
+- compare timing to new functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
