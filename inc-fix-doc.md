@@ -84,9 +84,14 @@ Instead of making 1 batch request, 2 are made.
 use of conditional could have conflicting locks.
 stress tests needed.
 
+
 failing tests with `./dev test pkg/ccl/...`
 - ./dev test pkg/ccl/backupccl
 - ./dev test pkg/ccl/schemachangerccl
+
+Is this an issue because of transcation usage?
+disabling dirrect call of `fetchNextValues()` has an error?
+
 
 Locks/Transaction:
 
@@ -124,6 +129,7 @@ via either DB.Run, Txn.Run or Txn.Commit.
 - cache miss should happen multiple times.
 - ensure behavior is valid
 - compare timing to new functions
+
 
 
 
